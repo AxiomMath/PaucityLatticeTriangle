@@ -1,0 +1,36 @@
+name = "paucity"
+defaultTargets = ["Paucity"]
+# Enables `lake lint` (Batteries' env-linter driver). Batteries arrives
+# transitively via Mathlib.
+lintDriver = "batteries/runLinter"
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+relaxedAutoImplicit = false
+# Mathlib's standard linter set, on at build time.
+weak.linter.mathlibStandardSet = true
+
+# To bump: edit this rev, then `lake update && lake exe cache get`.
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "288f16d9a07189233a9bc5e1c143c38d1f3f4d37"
+
+# The mathematics.
+[[lean_lib]]
+name = "Paucity"
+
+# The comparator pair. `Challenge` states the objective over Mathlib alone and
+# proves nothing; `Solution` states the same theorem under the same name and
+# proves it from `Paucity`. See README.md.
+#
+# Deliberately NOT in defaultTargets: `Challenge` carries a permanent `sorry`
+# (its statement is the artifact), and `lake lint` derives its scope from the
+# default targets, so listing either here would point the linter at a file whose
+# `sorry` is the point. `comparator` builds both modules itself.
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"
